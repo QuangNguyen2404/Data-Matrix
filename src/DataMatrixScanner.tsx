@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/browser';
+import { BarcodeFormat, DecodeHintType } from '@zxing/library';
+import {BrowserMultiFormatReader} from '@zxing/browser';
 
 const DataMatrixScanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -9,8 +10,10 @@ const DataMatrixScanner: React.FC = () => {
 
   useEffect(() => {
     const hints = new Map();
+    const formats = [BarcodeFormat.QR_CODE, BarcodeFormat.DATA_MATRIX/*, ...*/];
     // Focus only on Data Matrix codes
-    hints.set(BarcodeFormat.DATA_MATRIX, true);  // Specify Data Matrix format
+
+    hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
     const codeReader = new BrowserMultiFormatReader(hints); // Pass the hints here
     codeReaderRef.current = codeReader;
     let active = true;
