@@ -18,7 +18,7 @@ const DataMatrixScanner: React.FC = () => {
     const startScanner = async () => {
       try {
         const videoInputDevices = await BrowserMultiFormatReader.listVideoInputDevices();
-        const selectedDeviceId = videoInputDevices[0]?.deviceId;
+        const selectedDeviceId = videoInputDevices[1]?.deviceId;
 
         if (!selectedDeviceId) {
           setError('No camera device found.');
