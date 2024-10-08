@@ -30,9 +30,11 @@ const DataMatrixScanner: React.FC = () => {
           videoRef.current!,
           (result, error) => {
             if (result) {
+              alert("successfull")
               setResult(result.getText());
             }
             if (error) {
+              alert("error")
               console.error(error);
               setError(error.message);
             }
