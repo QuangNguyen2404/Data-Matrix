@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BrowserMultiFormatReader, BarcodeFormat, BrowserDatamatrixCodeReader } from '@zxing/browser';
+import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/browser';
 
 const DataMatrixScanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const codeReaderRef = useRef<BrowserDatamatrixCodeReader | null>(null);
+  const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
-    // const hints = new Map();
-    // // Focus only on Data Matrix codes
-    // hints.set(BarcodeFormat.DATA_MATRIX, true);  // Specify Data Matrix format
-    const codeReader = new BrowserDatamatrixCodeReader(); // Pass the hints here
+    const hints = new Map();
+    // Focus only on Data Matrix codes
+    hints.set(BarcodeFormat.DATA_MATRIX, true);  // Specify Data Matrix format
+    const codeReader = new BrowserMultiFormatReader(hints); // Pass the hints here
     codeReaderRef.current = codeReader;
     let active = true;
 
     const startScanner = async () => {
       try {
-        const videoInputDevices = await BrowserDatamatrixCodeReader.listVideoInputDevices();
+        const videoInputDevices = await BrowserMultiFormatReader.listVideoInputDevices();
         const selectedDeviceId = videoInputDevices[1]?.deviceId;
 
         if (!selectedDeviceId) {
@@ -30,11 +30,9 @@ const DataMatrixScanner: React.FC = () => {
           videoRef.current!,
           (result, error) => {
             if (result) {
-              alert("successfull")
               setResult(result.getText());
             }
             if (error) {
-              alert("error")
               console.error(error);
               setError(error.message);
             }
