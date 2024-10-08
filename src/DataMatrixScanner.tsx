@@ -14,7 +14,7 @@ const DataMatrixScanner: React.FC = () => {
     // Focus only on Data Matrix codes
 
     hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-    const codeReader = new BrowserDatamatrixCodeReader(hints); // Pass the hints here
+    const codeReader = new BrowserDatamatrixCodeReader(); // Pass the hints here
     codeReaderRef.current = codeReader;
     let active = true;
 
@@ -33,12 +33,10 @@ const DataMatrixScanner: React.FC = () => {
           videoRef.current!,
           (result, error) => {
             if (result) {
-              alert(result);
               setResult(result.getText());
             }
             if (error) {
               console.error(error);
-              alert(error)
               setError(error.message);
             }
           }
