@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BrowserMultiFormatReader } from '@zxing/browser';
+import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/browser';
 
 const DataMatrixScanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -8,14 +8,17 @@ const DataMatrixScanner: React.FC = () => {
   const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
-    const codeReader = new BrowserMultiFormatReader();
-    codeReaderRef.current = codeReader;  // Store reference to codeReader instance
+    const hints = new Map();
+    // Focus only on Data Matrix codes
+    hints.set(BarcodeFormat.DATA_MATRIX, true);  // Specify Data Matrix format
+    const codeReader = new BrowserMultiFormatReader(hints); // Pass the hints here
+    codeReaderRef.current = codeReader;
     let active = true;
 
     const startScanner = async () => {
       try {
         const videoInputDevices = await BrowserMultiFormatReader.listVideoInputDevices();
-        const selectedDeviceId = videoInputDevices[1]?.deviceId;
+        const selectedDeviceId = videoInputDevices[0]?.deviceId;
 
         if (!selectedDeviceId) {
           setError('No camera device found.');
@@ -45,12 +48,8 @@ const DataMatrixScanner: React.FC = () => {
       startScanner();
     }
 
-    // Cleanup function to stop camera access
     return () => {
       active = false;
-      // if (codeReaderRef.current) {
-      //   codeReaderRef.current.reset(); // Stop the scanner
-      // }
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = (videoRef.current.srcObject as MediaStream);
         stream.getTracks().forEach(track => track.stop()); // Stop the camera
