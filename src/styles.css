@@ -1,0 +1,69 @@
+.scanner {
+    height: 100%;
+    display: none;
+  }
+  .scanner.visible {
+    display: block;
+  }
+  
+  #scanner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+  
+  #scanner-video video {
+    object-fit: initial;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 100%;
+    width: auto;
+    z-index: 2;
+    @media (orientation: portrait) {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  #scanner-frame {
+    position: absolute;
+    margin: auto;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    border: 2px solid orange;
+    z-index: 3;
+  }
+  
+  #scanner-canvas {
+    display: none;
+    width: 100%;
+    margin: auto;
+    z-index: 4;
+  }
+  
+  #scanner-image {
+    display: none;
+    width: 100%;
+    margin: auto;
+    z-index: 10;
+  }
+  
+  #scanner-close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    cursor: pointer;
+  }
+  #scanner-close:hover {
+    background: #aaa;
+  }
