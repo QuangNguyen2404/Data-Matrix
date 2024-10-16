@@ -2,7 +2,7 @@
 // see https://github.com/zxing-js/library
 
 import React from 'react'
-import './styles.scss'
+import './styles.css'
 import { BrowserBarcodeReader } from '@zxing/library'
 
 const timeout = 1000 // time between frames
